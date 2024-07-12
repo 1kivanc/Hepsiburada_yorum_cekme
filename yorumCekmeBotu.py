@@ -8,7 +8,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 def hepsiburada_yorum_cek(url):
     global_delay = 0.5
     driver = webdriver.Chrome()
-    
+
     try:
         driver.get(url)
         time.sleep(5)  
@@ -31,22 +31,29 @@ def hepsiburada_yorum_cek(url):
                     time.sleep(global_delay)
                 except Exception as e:
                     print(f'Yorum çekilirken hata oluştu: {str(e)}')
-            
+
             if current_page_number < total_pages:
-                current_page_number += 1  
+                current_page_number += 1
                 next_page_url = url + f"?sayfa={current_page_number}"
                 driver.get(next_page_url)
                 print(f'Sonraki sayfa ({current_page_number}) yükleniyor...')
+                time.sleep(3) 
+                pagination_element = driver.find_element(By.XPATH, '/html/body/div[2]/main/div[2]/div/div/div/div/div/div/div[1]/div[2]/div[2]/div[6]/div[3]/div[2]/div/ul')
+                page_elements = pagination_element.find_elements(By.TAG_NAME, 'li')
+                total_pages = len(page_elements) - 1 
+
             else:
                 break
 
     except Exception as e:
         print('Hata: ' + str(e))
     finally:
-        print('Program sonlandı')
+        print('Tüm yorumlar çekildi')
         driver.quit()
 
 urun_url = input("Hepsiburada ürününün linkini giriniz: ")
+
 if not urun_url.endswith("-yorumlari"):
     urun_url += "-yorumlari"
+
 hepsiburada_yorum_cek(urun_url)
