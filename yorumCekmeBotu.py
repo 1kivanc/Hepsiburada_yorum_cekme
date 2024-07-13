@@ -19,7 +19,7 @@ def hepsiburada_yorum_cek(url):
             time.sleep(3)
             pagination_element = driver.find_element(By.XPATH, '/html/body/div[2]/main/div[2]/div/div/div/div/div/div/div[1]/div[2]/div[2]/div[6]/div[3]/div[2]/div/ul')
             page_elements = pagination_element.find_elements(By.TAG_NAME, 'li')
-            total_pages = len(page_elements) - 1  
+            total_pages = int(page_elements[-1].find_element(By.TAG_NAME, 'span').text) 
 
             print(f'Şu anki sayfa: {current_page_number}, Toplam sayfa: {total_pages}')
 
@@ -40,7 +40,7 @@ def hepsiburada_yorum_cek(url):
                 time.sleep(3) 
                 pagination_element = driver.find_element(By.XPATH, '/html/body/div[2]/main/div[2]/div/div/div/div/div/div/div[1]/div[2]/div[2]/div[6]/div[3]/div[2]/div/ul')
                 page_elements = pagination_element.find_elements(By.TAG_NAME, 'li')
-                total_pages = len(page_elements) - 1 
+                total_pages = int(page_elements[-1].find_element(By.TAG_NAME, 'span').text)
 
             else:
                 break
